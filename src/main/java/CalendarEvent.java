@@ -3,10 +3,10 @@ import calendar.MeetingCalendar;
 
 abstract public class CalendarEvent
 {
-	String Description;
-	String location;
-	GregorianCalendar startTime;
-	GregorianCalendar endTime;
+	private String Description;
+	private String location;
+	private GregorianCalendar startTime;
+	private GregorianCalendar endTime;
 
 	public CalendarEvent(String desc, String loc, GregorianCalendar start, GregorianCalendar end)
 	{

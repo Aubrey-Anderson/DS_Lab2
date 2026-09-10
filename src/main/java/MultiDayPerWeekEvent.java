@@ -5,8 +5,8 @@ import calendar.MeetingCalendar;
 public class MultiDayPerWeekEvent extends CalendarEvent
 {
 
-	GregorianCalendar repeatsUntil;
-	int[] days;
+	private GregorianCalendar repeatsUntil;
+	private int[] days;
 
 	public MultiDayPerWeekEvent(String desc, String loc, GregorianCalendar start, GregorianCalendar end, GregorianCalendar repeat, int[] days)
 	{

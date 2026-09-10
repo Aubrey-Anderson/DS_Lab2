@@ -4,7 +4,7 @@ import calendar.MeetingCalendar;
 public class WeeklyEvent extends CalendarEvent
 {
 
-	GregorianCalendar repeatsUntil;
+	private GregorianCalendar repeatsUntil;
 
 	public WeeklyEvent(String desc, String loc, GregorianCalendar start, GregorianCalendar end, GregorianCalendar repeat)
 	{
