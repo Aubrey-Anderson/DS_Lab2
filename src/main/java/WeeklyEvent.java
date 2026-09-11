@@ -9,6 +9,7 @@ public class WeeklyEvent extends CalendarEvent
 	public WeeklyEvent(String desc, String loc, GregorianCalendar start, GregorianCalendar end, GregorianCalendar repeat)
 	{
 		super(desc, loc, start, end);
+		this.repeatsUntil = repeat;
 		// TODO Auto-generated constructor stub
 	}
 
