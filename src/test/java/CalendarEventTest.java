@@ -20,6 +20,11 @@ class CalendarEventTest
 
     GregorianCalendar repeatUntil;
 
+    GregorianCalendar monday;
+    GregorianCalendar tuesday;
+    GregorianCalendar wednesday;
+    GregorianCalendar thursday;
+    GregorianCalendar friday;
 
     @BeforeEach
     void setUp() throws Exception
@@ -34,6 +39,13 @@ class CalendarEventTest
 
         startC = new GregorianCalendar(2023, 8, 28, 10, 30);
         endC = new GregorianCalendar(2023, 8, 28, 11, 30);
+        
+        monday = new GregorianCalendar(2023, 9, 2, 8, 30);
+        tuesday = new GregorianCalendar(2023, 9, 3, 8, 30);
+        wednesday = new GregorianCalendar(2023, 9, 4, 8, 30);
+        thursday = new GregorianCalendar(2023, 8, 28, 8, 30);
+        friday = new GregorianCalendar(2023, 8, 29, 8, 30);
+
     }
 
     @Test
@@ -102,7 +114,7 @@ class CalendarEventTest
 	    
 	    GregorianCalendar week2 = new GregorianCalendar(2023, 9, 5, 8, 30);
 	    GregorianCalendar lastWeek = new GregorianCalendar(2024, 8, 26, 8, 30);
-	    GregorianCalendar invalidWeek = new GregorianCalendar(2024, 9, 4, 8, 30);
+	    GregorianCalendar invalidWeek = new GregorianCalendar(2024, 9, 3, 8, 30);
 		
 		eventW.scheduleEvent(cal);
 		assertNotNull(cal.findMeeting(weeklyStart));
@@ -134,6 +146,66 @@ class CalendarEventTest
         assertEquals("Meeting Dupe", cal.findMeeting(dupeWeek2).getDescription());
         
 	}
+	
+	@Test
+	void testMultiDayPerWeekEvent()
+	{
+        GregorianCalendar multiRepeatUntil = new GregorianCalendar(2024, 8, 28, 9, 30);
 
+        int[] days = {GregorianCalendar.MONDAY, GregorianCalendar.WEDNESDAY, GregorianCalendar.FRIDAY};
+
+        MultiDayPerWeekEvent eventM = new MultiDayPerWeekEvent("Meeting M", "Location M", startA, endA, multiRepeatUntil, days);
+
+        assertEquals("Meeting M", eventM.getDescription());
+        assertEquals("Location M", eventM.getLocation());
+        assertEquals(startA, eventM.getStartTime());
+        assertEquals(endA, eventM.getEndTime());
+  //    assertEquals(multiRepeatUntil, eventM.getRepeatsUntil());
+
+        eventM.scheduleEvent(cal);
+
+        
+        assertNotNull(cal.findMeeting(monday));
+        assertEquals("Meeting M", cal.findMeeting(monday).getDescription());
+
+        assertNotNull(cal.findMeeting(wednesday));
+        assertEquals("Meeting M", cal.findMeeting(wednesday).getDescription());
+
+        assertNotNull(cal.findMeeting(friday));
+        assertEquals("Meeting M",cal.findMeeting(friday).getDescription());
+
+        assertNull(cal.findMeeting(tuesday));
+        assertNull(cal.findMeeting(thursday));
+        
+        GregorianCalendar lastMeeting = new GregorianCalendar(2024, 8, 27, 8, 30);
+        assertNotNull(cal.findMeeting(lastMeeting));
+        assertEquals("Meeting M", cal.findMeeting(lastMeeting).getDescription());
+        
+        GregorianCalendar tooFarMonday = new GregorianCalendar(2024, 8, 30, 8, 30);
+        assertNull(cal.findMeeting(tooFarMonday));
+        	
+	}
+	
+	@Test
+	void tesMultiDayPerWeekEventDisplacement()
+	{
+		GregorianCalendar multiRepeatUntil = new GregorianCalendar(2024, 8, 28, 9, 30);
+        int[] days = {GregorianCalendar.MONDAY, GregorianCalendar.WEDNESDAY, GregorianCalendar.FRIDAY};
+        GregorianCalendar beginA = new GregorianCalendar(2023, 8, 29, 8, 30);
+        GregorianCalendar endingA = new GregorianCalendar(2023, 8, 29, 9, 30);
+		
+		OneTimeEvent eventA = new OneTimeEvent("Meeting A", "Location A", beginA, endingA);
+		MultiDayPerWeekEvent overlap = new MultiDayPerWeekEvent("Meeting M", "Location M", startA, endA, multiRepeatUntil, days);
+		
+		eventA.scheduleEvent(cal);
+		assertNotNull(cal.findMeeting(beginA));
+		overlap.scheduleEvent(cal);
+        assertEquals("Meeting A", cal.findMeeting(friday).getDescription());
+        
+        GregorianCalendar secondFriday = new GregorianCalendar(2023, 9, 6, 8, 30);
+        assertNotNull(cal.findMeeting(secondFriday));
+        assertEquals("Meeting M", cal.findMeeting(secondFriday).getDescription());
+        
+	}
 
 }
