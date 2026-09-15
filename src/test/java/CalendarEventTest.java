@@ -110,7 +110,7 @@ class CalendarEventTest
 	    assertEquals("Location W", eventW.getLocation());
 	    assertEquals(weeklyStart, eventW.getStartTime());
 	    assertEquals(weeklyEnd, eventW.getEndTime());
-   //   assertEquals(weeklyRepeatUntil, eventW.getRepeatsUntil());
+	    assertEquals(weeklyRepeatUntil, eventW.getRepeatUntil());
 	    
 	    GregorianCalendar week2 = new GregorianCalendar(2023, 9, 5, 8, 30);
 	    GregorianCalendar lastWeek = new GregorianCalendar(2024, 8, 26, 8, 30);
@@ -160,7 +160,7 @@ class CalendarEventTest
         assertEquals("Location M", eventM.getLocation());
         assertEquals(startA, eventM.getStartTime());
         assertEquals(endA, eventM.getEndTime());
-  //    assertEquals(multiRepeatUntil, eventM.getRepeatsUntil());
+        assertEquals(multiRepeatUntil, eventM.getRepeatUntil());
 
         eventM.scheduleEvent(cal);
 
@@ -187,7 +187,7 @@ class CalendarEventTest
 	}
 	
 	@Test
-	void tesMultiDayPerWeekEventDisplacement()
+	void testMultiDayPerWeekEventDisplacement()
 	{
 		GregorianCalendar multiRepeatUntil = new GregorianCalendar(2024, 8, 28, 9, 30);
         int[] days = {GregorianCalendar.MONDAY, GregorianCalendar.WEDNESDAY, GregorianCalendar.FRIDAY};

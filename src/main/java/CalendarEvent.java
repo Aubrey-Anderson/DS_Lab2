@@ -10,7 +10,10 @@ abstract public class CalendarEvent
 
 	public CalendarEvent(String desc, String loc, GregorianCalendar start, GregorianCalendar end)
 	{
-
+		this.Description = desc;
+		this.location = loc;
+		this.startTime = start;
+		this.endTime = end;
 	}
 
 	public abstract void scheduleEvent(MeetingCalendar cal);
